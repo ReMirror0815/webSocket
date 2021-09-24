@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+    .bodys{
+        width: 400px;
+        margin: 0 auto;
+    }
+   #content {
+        width: 400px;
+        height: 600px;
+        border: 1px solid #000;
+        overflow-y: scroll;
+    }
+</style>
+<body>
+    <div class="bodys">
+        <div id="content"></div>
+        <input id="xiaoming" placeholder="请输入" />
+        <button id="submit">发送</button>
+    </div>
+</body>
+<script>
+  let input = document.getElementById('xiaoming');
+  let button = document.getElementById('submit');
+  let div = document.getElementById('content');
+  //创建WebSocket('WebSocket服务器地址')
+  let socket = new WebSocket('ws://172.16.2.173:6678/');
+//   let socket = new WebSocket('ws://localhost:6678/');
+  //监听WebSocket事件 open和WebSocket服务器连接成功触发
+  socket.addEventListener('open',()=>{
+    console.log('连接成功')
+  });
+  input.addEventListener('keydown',(e)=>{
+    if(e.keyCode===13){
+        let value = input.value;
+        input.value = ''
+        socket.send(value);
+    }
+  })
+
+  //给webSocket发送消息
+  button.addEventListener('click',()=>{
+      let value = input.value;
+      input.value = ''
+      socket.send(value);
+  });
+
+  //接受websocket服务的消息
+  socket.addEventListener('message',(msg)=>{
+      const data = JSON.parse(msg.data)
+        let str = ''
+        data.forEach(item=>{
+            str+=`<div>${item.userName}:${item.value}</div>`
+        })
+      //把消息显示到div
+      div.innerHTML = str
+      div.scrollTop = div.scrollHeight;
+  });
+  //端口服务
+  socket.addEventListener('close',()=>{
+      console.log('服务断开');
+  });
+</script>
+
+</html>
