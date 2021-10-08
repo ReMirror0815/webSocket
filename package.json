@@ -1,4 +1,11 @@
 {
+  "name": "websocket",
+  "description": "",
+  "version": "1.0.0",
+  "author":"ReMirror",
+  "scripts": {
+    "start": "nodemon websocket.js & nodemon server.js"
+  },
   "dependencies": {
     "koa": "^2.13.1",
     "koa-router": "^10.1.1",

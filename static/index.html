@@ -30,7 +30,7 @@
   let button = document.getElementById('submit');
   let div = document.getElementById('content');
   //创建WebSocket('WebSocket服务器地址')
-  let socket = new WebSocket('ws://172.16.2.173:6678/');
+  let socket = new WebSocket('ws://192.168.43.245:6678/');
 //   let socket = new WebSocket('ws://localhost:6678/');
   //监听WebSocket事件 open和WebSocket服务器连接成功触发
   socket.addEventListener('open',()=>{
